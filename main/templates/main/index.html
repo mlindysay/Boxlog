@@ -1,0 +1,18 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}" />
+<title>Boxlog - Create a new box!</title>
+
+<div id="startForm">
+ <h1>Boxlog</h1>   
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<p>Type in a label for your box.</p>
+
+
+<form id="createBox" action="/" method="post">
+{% csrf_token %}
+    <input type="text" name="boxLabel"  value="" />
+    <input class="btn" type="submit" value="Create Box" />
+</form>
+</div>

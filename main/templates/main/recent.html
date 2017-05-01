@@ -1,0 +1,13 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}" />
+
+{% if latest_box_list %}
+    <ul>
+    {% for box in latest_box_list %}
+        <li><a href="{% url 'main:detail' box.id %}">{{ box.box_label }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No boxes have been created.</p>
+{% endif %}

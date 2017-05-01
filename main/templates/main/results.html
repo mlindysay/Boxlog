@@ -1,0 +1,9 @@
+<h1>{{ box.box_label }}</h1>
+
+<ul>
+{% for item in box.item_set.all %}
+    <li>{{ item.item_name }} -- {{ item.votes }} vote{{ item.votes|pluralize }}</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'main:detail' box.id %}">Vote again?</a>

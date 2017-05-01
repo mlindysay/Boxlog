@@ -1,0 +1,14 @@
+<title>Boxlog - {{ box.box_label }}</title>
+
+<div style="border-style: dashed; display: inline-block;">
+ <h1 style="text-align: center; margin-left: 20px; margin-right: 20px;">{{ box.box_label }}</h1> 
+     <img id="imgQR" style="display: block; margin: 0 auto;">
+</div>
+
+<p style="text-align: center; margin-top: 30px;">Print this label out, cut it out, and tape it to your box.  Scan the QR code to view/update your box's contents.</p>
+
+<script>
+    var qrcode = "https://chart.googleapis.com/chart?cht=qr&chs=150x150&choe=UTF-8&chld=H&chl=https://boxlog-mlindysay.c9users.io/id/{{ box.box_id }}/";
+    imgQR = document.querySelector("#imgQR");
+    imgQR.src = qrcode;
+</script>

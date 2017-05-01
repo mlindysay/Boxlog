@@ -1,0 +1,58 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}" />
+<title>Boxlog - {{ box.box_label }}</title>
+
+<div id="topbar">
+ <h1>{{ box.box_label }}</h1> 
+     <img id="imgQR">
+</div>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<table>
+    <tr>
+        <th>Item</th>
+        <th>Description</th>
+    </tr>
+   {% for item in box.item_set.all %}
+    <tr>
+    <td id="itemTD{{ forloop.counter }}" class="item-col item{{ forloop.counter }}" contenteditable="true"  onkeyup="updateForm(this)">{{ item.item_name }}</td>
+    <td id="descTD{{ forloop.counter }}" class="desc-col description{{ forloop.counter }}" contenteditable="true"  onkeyup="updateForm(this)">{{ item.item_description }}</td>
+    </tr>
+    {% endfor %} 
+</table>
+
+
+<form id="addForm" action="/addItem/" method="post">
+{% csrf_token %}
+<input type="hidden" name="boxID" value="{{ box.box_id }}" />
+
+</form>
+
+<form id="updateForm" action="/updateBox/" method="post">
+{% csrf_token %}
+<input type="hidden" name="boxID" value="{{ box.box_id }}" />
+<input type="hidden" name="numItems" value="{{ box.item_set.count }}" />
+{% for item in box.item_set.all %}
+    <input type="hidden" name="item{{ forloop.counter }}" id="item{{ forloop.counter }}" value="{{ item.item_name }}" />
+    <input type="hidden" name="description{{ forloop.counter }}" id="description{{ forloop.counter }}" value="{{ item.item_description }}" />
+{% endfor %}
+
+</form>
+<div id="ctrlDiv">
+<a class="btn" href="https://boxlog-mlindysay.c9users.io/label/{{ box.box_id }}/">Generate Box Label</a>
+<input form="addForm" class="btn" type="submit" value="Add Item" />
+<input form="updateForm" class="btn" type="submit" value="Save Changes" />  
+</div>
+
+<script>
+    var qrcode = "https://chart.googleapis.com/chart?cht=qr&chs=150x150&choe=UTF-8&chld=H&chl=https://boxlog-mlindysay.c9users.io/id/{{ box.box_id }}/";
+    imgQR = document.querySelector("#imgQR");
+    imgQR.src = qrcode;
+    
+    function updateForm(cell) {
+        var input2Update = "#" + cell.classList[1];
+        document.querySelector(input2Update).value = cell.innerHTML;
+    }
+</script>
